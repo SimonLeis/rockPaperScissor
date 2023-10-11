@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // save user's pick as an variable ( UserSelection)
     // make users pick to lower case
 
-    let usersChoice = prompt("What do you want to take ? Rock, Paper or Scissor")
-    usersChoice = usersChoice.toLowerCase()
+                // let usersChoice = prompt("What do you want to take ? Rock, Paper or Scissor")
+                // usersChoice = usersChoice.toLowerCase()
 
   
 
@@ -144,7 +144,105 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // resultMessage in konsole ausgeben
 
-    console.log(resultMessage(gameEval(usersChoice, getComputerChoice())))
+
+
+
+
+
+
+  
+
+
+    
+
+    function game() {
+
+            // make (game) function
+    // first declare a scoped variable which name is "counter"
+    // then declase the scoped variable computerScore and userScore which holds the score of each opponent
+
+        let counter = 0
+        let computerScore = 0
+        let userScore = 0
+
+            // every round the counter should increment by one and function repetition should stop if it hits 5 rounds
+        // in the loop there should be a prompt for the userChoice at the beginning
+        // then the computer Choice needs to be calculated
+        // then the game should be evaluated
+            // if the first 3 letters are "win" the userScore should increment by 1
+            // else if the first 4 letters are "loss" the computerScore should increment by 1
+            // else both scores should increment by 1
+
+        const playRound =() => {
+
+            if(counter <= 5){
+    
+            let usersChoice = prompt("What do you want to take ? Rock, Paper or Scissor")
+            usersChoice = usersChoice.toLowerCase()
+    
+           if(gameEval(usersChoice, getComputerChoice()).substring(0, 3) === "win"){
+            userScore++
+            console.log(resultMessage(gameEval(usersChoice, getComputerChoice())))
+           }
+           else if(gameEval(usersChoice, getComputerChoice()).substring(0, 4) === "loss"){
+            computerScore++
+            console.log(resultMessage(gameEval(usersChoice, getComputerChoice())))
+           }else if(gameEval(usersChoice, getComputerChoice()) === "draw"){
+            computerScore++
+            userScore++
+            console.log(resultMessage(gameEval(usersChoice, getComputerChoice())))
+           }
+    
+          
+    
+    
+           }
+    }
+        playRound()
+        playRound()
+        playRound()
+        playRound()
+        playRound()
+        
+    // after the functions a function called (totalGameEval()) should run 
+        // if the userScore is higher it should display "the user has won"
+        // if the computerScore is higher it should display "better luck next time"
+        // at the end both scores should be set to 0 and counter set to 0
+
+    const totalGameEval = () => {
+        if(computerScore < userScore){
+            console.log(`You've won with ${userScore} to ${computerScore}`)
+        }else if(userScore < computerScore){
+            console.log(`You've lost with ${userScore} to ${computerScore}`)
+        }else if (userScore === computerScore){
+
+            console.log("It was a draw, try again!")
+
+}   
+
+        counter = 0
+        computerScore = 0
+        userScore = 0
+
+}
+
+totalGameEval()
+
+
+    
+
+    }
+
+    game()
+
+
+ 
+ 
+
+    
+    
+
+
 
 
 
