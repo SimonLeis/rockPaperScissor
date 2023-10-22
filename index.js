@@ -81,55 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let counter = 0;
     let computerScore = 0;
     let userScore = 0;
-
-    const playRound = () => {
-      if (counter <= 5) {
-        let getUsersChoice = prompt(
-          "What do you want to take ? Rock, Paper or Scissor"
-        );
-        getUsersChoice = getUsersChoice.toLowerCase();
-
-        if (
-          evalGameResult(getUsersChoice, getComputerChoice()).substring(
-            0,
-            3
-          ) === "win"
-        ) {
-          userScore++;
-          console.log(
-            makeResultMessage(
-              evalGameResult(getUsersChoice, getComputerChoice())
-            )
-          );
-        } else if (
-          evalGameResult(getUsersChoice, getComputerChoice()).substring(
-            0,
-            4
-          ) === "loss"
-        ) {
-          computerScore++;
-          console.log(
-            makeResultMessage(
-              evalGameResult(getUsersChoice, getComputerChoice())
-            )
-          );
-        }
-      } else if (
-        evalGameResult(getUsersChoice, getComputerChoice()) === "draw"
-      ) {
-        computerScore++;
-        userScore++;
-        console.log(
-          makeResultMessage(evalGameResult(getUsersChoice, getComputerChoice()))
-        );
-      }
-    };
-
-    playRound();
-    playRound();
-    playRound();
-    playRound();
-    playRound();
+    let getUsersChoice;
 
     const evalTotalGameResult = () => {
       if (computerScore < userScore) {
@@ -144,9 +96,50 @@ document.addEventListener("DOMContentLoaded", () => {
       computerScore = 0;
       userScore = 0;
     };
-
-    evalTotalGameResult();
   }
 
-  playGame();
+  const playRound = (usersChoice) => {
+    usersChoice = usersChoice.toLowerCase();
+
+    if (
+      evalGameResult(usersChoice, getComputerChoice()).substring(0, 3) === "win"
+    ) {
+      console.log(
+        makeResultMessage(evalGameResult(usersChoice, getComputerChoice()))
+      );
+    } else if (
+      evalGameResult(
+        usersChoice,
+        getComputerChoice().substring(0, 4) === "loss"
+      )
+    ) {
+      console.log(
+        makeResultMessage(evalGameResult(usersChoice, getComputerChoice()))
+      );
+    }
+  };
+
+  document.addEventListener("click", (e) => {
+    let target = e.target;
+
+    switch (target.className) {
+      case "userChoiceBtnScissor":
+        playRound(target.textContent);
+        e.stopPropagation();
+        break;
+
+      case "userChoiceBtnRock":
+        playRound(target.textContent);
+        e.stopPropagation();
+        break;
+
+      case "userChoiceBtnPaper":
+        playRound(target.textContent);
+        e.stopPropagation();
+        break;
+
+      default:
+        break;
+    }
+  });
 });
