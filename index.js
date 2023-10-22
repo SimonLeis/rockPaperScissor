@@ -77,45 +77,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  function playGame() {
-    let counter = 0;
-    let computerScore = 0;
-    let userScore = 0;
-    let getUsersChoice;
-
-    const evalTotalGameResult = () => {
-      if (computerScore < userScore) {
-        console.log(`You've won with ${userScore} to ${computerScore}`);
-      } else if (userScore < computerScore) {
-        console.log(`You've lost with ${userScore} to ${computerScore}`);
-      } else if (userScore === computerScore) {
-        console.log("It was a draw, try again!");
-      }
-
-      counter = 0;
-      computerScore = 0;
-      userScore = 0;
-    };
-  }
+  const resultDisplay = document.querySelector(".result");
+  const userScoreDisplay = document.querySelector(".userScore span");
+  const computerScoreDisplay = document.querySelector(".computerScore span");
+  let computerScore = 0;
+  let userScore = 0;
 
   const playRound = (usersChoice) => {
     usersChoice = usersChoice.toLowerCase();
 
+    // if player wins
     if (
       evalGameResult(usersChoice, getComputerChoice()).substring(0, 3) === "win"
     ) {
-      console.log(
-        makeResultMessage(evalGameResult(usersChoice, getComputerChoice()))
+      resultDisplay.textContent = makeResultMessage(
+        evalGameResult(usersChoice, getComputerChoice())
       );
+      userScore++;
+      userScoreDisplay.textContent = userScore;
+
+      // if player looses
     } else if (
       evalGameResult(
         usersChoice,
         getComputerChoice().substring(0, 4) === "loss"
       )
     ) {
-      console.log(
-        makeResultMessage(evalGameResult(usersChoice, getComputerChoice()))
+      resultDisplay.textContent = makeResultMessage(
+        evalGameResult(usersChoice, getComputerChoice())
       );
+      computerScore++;
+      computerScoreDisplay.textContent = computerScore;
     }
   };
 
