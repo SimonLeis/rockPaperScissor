@@ -77,37 +77,71 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const createRestartButton = () => {
+    const restartButton = document.createElement("button");
+    restartButton.classList.add("restartButton");
+    restartButton.textContent = "Play again!";
+
+    document.querySelector("body").appendChild(restartButton);
+  };
+
   const resultDisplay = document.querySelector(".result");
   const userScoreDisplay = document.querySelector(".userScore span");
   const computerScoreDisplay = document.querySelector(".computerScore span");
   let computerScore = 0;
   let userScore = 0;
+  const totalResultDisplay = document.querySelector(".totalResult");
+
+  const resetGame = () => {
+    userScoreDisplay.textContent = "";
+    computerScoreDisplay.textContent = "";
+    userScore = 0;
+    computerScore = 0;
+    totalResultDisplay.textContent = "";
+    resultDisplay.textContent = "";
+    document
+      .querySelector("body")
+      .removeChild(document.querySelector(".restartButton"));
+  };
 
   const playRound = (usersChoice) => {
     usersChoice = usersChoice.toLowerCase();
 
-    // if player wins
-    if (
-      evalGameResult(usersChoice, getComputerChoice()).substring(0, 3) === "win"
-    ) {
-      resultDisplay.textContent = makeResultMessage(
-        evalGameResult(usersChoice, getComputerChoice())
-      );
-      userScore++;
-      userScoreDisplay.textContent = userScore;
+    if (userScore < 5 && computerScore < 5) {
+      // if player wins
+      if (
+        evalGameResult(usersChoice, getComputerChoice()).substring(0, 3) ===
+        "win"
+      ) {
+        resultDisplay.textContent = makeResultMessage(
+          evalGameResult(usersChoice, getComputerChoice())
+        );
+        userScore++;
+        userScoreDisplay.textContent = userScore;
+        if (userScore >= 5) {
+          totalResultDisplay.textContent = " Player Wins ";
+          createRestartButton();
+        }
 
-      // if player looses
-    } else if (
-      evalGameResult(
-        usersChoice,
-        getComputerChoice().substring(0, 4) === "loss"
-      )
-    ) {
-      resultDisplay.textContent = makeResultMessage(
-        evalGameResult(usersChoice, getComputerChoice())
-      );
-      computerScore++;
-      computerScoreDisplay.textContent = computerScore;
+        // if player looses
+      } else if (
+        evalGameResult(usersChoice, getComputerChoice()).substring(0, 4) ===
+        "loss"
+      ) {
+        resultDisplay.textContent = makeResultMessage(
+          evalGameResult(usersChoice, getComputerChoice())
+        );
+        computerScore++;
+        if (computerScore >= 5) {
+          totalResultDisplay.textContent = " Computer Wins ";
+          createRestartButton();
+        }
+        computerScoreDisplay.textContent = computerScore;
+      } else if (evalGameResult(usersChoice, getComputerChoice()) === "draw") {
+        resultDisplay.textContent = makeResultMessage(
+          evalGameResult(usersChoice, getComputerChoice())
+        );
+      }
     }
   };
 
@@ -127,6 +161,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "userChoiceBtnPaper":
         playRound(target.textContent);
+        e.stopPropagation();
+        break;
+
+      case "restartButton":
+        resetGame();
         e.stopPropagation();
         break;
 
